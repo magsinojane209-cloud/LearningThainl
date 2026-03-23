@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai Language Website — Build Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=Noto+Sans+Thai:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --red: #C0392B;
+    --ink: #1A1208;
+    --cream: #FAF6ED;
+    --warm-mid: #EDE5D0;
+    --text: #2C1F0E;
+    --muted: #8A7560;
+    --accent-teal: #1A6B6B;
+    --accent-teal-light: #24918E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  header {
+    position: relative;
+    background: var(--ink);
+    padding: 80px 60px 70px;
+    overflow: hidden;
+  }
+  header::before {
+    content: 'ภาษาไทย';
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: 180px;
+    font-weight: 700;
+    color: rgba(201,168,76,0.07);
+    position: absolute;
+    top: -20px; right: -30px;
+    white-space: nowrap;
+    pointer-events: none;
+    line-height: 1;
+  }
+  .header-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    max-width: 700px;
+    margin-bottom: 16px;
+  }
+  header h1 span { color: var(--gold); }
+  .header-sub {
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    max-width: 480px;
+    letter-spacing: 0.5px;
+  }
+  .thai-accent {
+    display: inline-block;
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: 13px;
+    color: var(--gold-light);
+    margin-top: 18px;
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 6px 14px;
+    border-radius: 2px;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--ink);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    padding: 32px 60px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc-item:hover { color: var(--gold); }
+  .toc-num {
+    font-size: 10px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section { padding: 72px 0 52px; border-bottom: 1px solid var(--warm-mid); }
+  .section:last-child { border-bottom: none; }
+
+  .section-tag {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 3vw, 42px);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .section-desc {
+    color: var(--muted);
+    font-size: 13px;
+    max-width: 560px;
+    margin-bottom: 44px;
+  }
+
+  /* ── CARDS ── */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .card {
+    background: #fff;
+    border: 1px solid var(--warm-mid);
+    padding: 28px 26px;
+    position: relative;
+    transition: box-shadow 0.25s, transform 0.25s;
+  }
+  .card:hover { box-shadow: 0 8px 32px rgba(26,18,8,0.1); transform: translateY(-2px); }
+  .card-num {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+  .card-body {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+  .card-accent {
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--gold);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .card:hover .card-accent { opacity: 1; }
+
+  /* ── WIDE CARD ── */
+  .card-wide {
+    background: #fff;
+    border: 1px solid var(--warm-mid);
+    padding: 28px 30px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 28px;
+    align-items: start;
+    margin-bottom: 16px;
+    transition: box-shadow 0.25s;
+  }
+  .card-wide:hover { box-shadow: 0 6px 24px rgba(26,18,8,0.08); }
+  .card-wide-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .card-wide-sub {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 4px;
+  }
+  .card-wide-body { font-size: 12.5px; color: var(--muted); }
+
+  /* ── TAG PILLS ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .tag {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--warm-mid);
+    color: var(--muted);
+    background: var(--cream);
+  }
+  .tag.highlight {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+  .tag.teal {
+    border-color: var(--accent-teal);
+    color: var(--accent-teal);
+    background: rgba(26,107,107,0.05);
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 36px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: var(--warm-mid);
+  }
+  .timeline-item { position: relative; margin-bottom: 36px; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -33px; top: 6px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 1px var(--gold);
+  }
+  .timeline-phase {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .timeline-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .timeline-body { font-size: 12.5px; color: var(--muted); }
+
+  /* ── METRIC BOXES ── */
+  .metrics { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 36px; }
+  .metric {
+    border: 1px solid var(--warm-mid);
+    padding: 24px 20px;
+    background: #fff;
+    text-align: center;
+  }
+  .metric-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .metric-val span { font-size: 20px; color: var(--gold); }
+  .metric-label { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--ink);
+    color: #fff;
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+    margin: 52px 0 0;
+  }
+  .callout::after {
+    content: 'สวัสดี';
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: 100px;
+    font-weight: 700;
+    color: rgba(201,168,76,0.08);
+    position: absolute;
+    right: 30px; bottom: -10px;
+    pointer-events: none;
+  }
+  .callout-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .callout-body { font-size: 13px; color: rgba(255,255,255,0.65); max-width: 560px; }
+
+  /* ── STACK LIST ── */
+  .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .stack-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 20px;
+    background: #fff;
+    border: 1px solid var(--warm-mid);
+  }
+  .stack-icon {
+    width: 32px; height: 32px;
+    background: var(--ink);
+    color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+  }
+  .stack-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .stack-desc { font-size: 11px; color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    padding: 40px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+    gap: 16px;
+  }
+  footer p { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 1.5px; }
+  footer .thai { font-family: 'Noto Sans Thai', sans-serif; color: var(--gold); font-size: 18px; }
+
+  /* ── DIVIDER ── */
+  .rule { border: none; border-top: 1px solid var(--warm-mid); margin: 36px 0; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    header { padding: 50px 28px 46px; }
+    .toc { padding: 24px 28px; gap: 20px; }
+    .container { padding: 0 24px; }
+    .card-wide { grid-template-columns: 1fr; }
+    footer { padding: 32px 28px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section { animation: fadeUp 0.5s ease both; }
+  .section:nth-child(2) { animation-delay: 0.05s; }
+  .section:nth-child(3) { animation-delay: 0.1s; }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <p class="header-label">Full Build Plan · 2024</p>
+  <h1>High-Converting Website for <span>Learning Thai</span></h1>
+  <p class="header-sub">A complete structural blueprint — from positioning and UX architecture to tech stack, content strategy, and growth funnels.</p>
+  <div class="thai-accent">เรียนภาษาไทย — Learn Thai Language</div>
+</header>
+
+<!-- ── TOC ── -->
+<nav class="toc">
+  <a class="toc-item" href="#positioning"><span class="toc-num">01</span> Positioning</a>
+  <a class="toc-item" href="#pages"><span class="toc-num">02</span> Pages & UX</a>
+  <a class="toc-item" href="#conversion"><span class="toc-num">03</span> Conversion</a>
+  <a class="toc-item" href="#content"><span class="toc-num">04</span> Content</a>
+  <a class="toc-item" href="#tech"><span class="toc-num">05</span> Tech Stack</a>
+  <a class="toc-item" href="#seo"><span class="toc-num">06</span> SEO & Traffic</a>
+  <a class="toc-item" href="#roadmap"><span class="toc-num">07</span> Roadmap</a>
+  <a class="toc-item" href="#kpis"><span class="toc-num">08</span> KPIs</a>
+</nav>
+
+<!-- ── MAIN ── -->
+<main>
+<div class="container">
+
+  <!-- 01 POSITIONING -->
+  <section class="section" id="positioning">
+    <p class="section-tag">01 — Strategy</p>
+    <h2 class="section-title">Positioning & Audience</h2>
+    <p class="section-desc">Define a razor-sharp niche before touching a single line of code. Broad = invisible. Specific = magnetic.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">AUDIENCE A</span>
+        <div class="card-title">Expats & Travelers</div>
+        <div class="card-body">People moving to Thailand or making frequent trips. Want survival Thai fast — food, transport, social. High purchase intent. Excellent for beginner courses + phrasebooks.</div>
+        <div class="tags"><span class="tag highlight">High intent</span><span class="tag">Beginner</span><span class="tag">Functional</span></div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">AUDIENCE B</span>
+        <div class="card-title">Serious Language Learners</div>
+        <div class="card-body">People committed to fluency — reading Thai script, grammar, tones. Willing to invest in structured curriculum. Great for subscriptions and premium tiers.</div>
+        <div class="tags"><span class="tag highlight">High LTV</span><span class="tag">Intermediate</span><span class="tag">Script</span></div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">AUDIENCE C</span>
+        <div class="card-title">Heritage & Culture Seekers</div>
+        <div class="card-body">Thai diaspora reconnecting with roots, people studying Thai Buddhism, meditation, Muay Thai. Emotionally-driven. Respond well to cultural storytelling alongside language.</div>
+        <div class="tags"><span class="tag teal">Cultural</span><span class="tag">Emotional</span></div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">VALUE PROP</span>
+        <div class="card-title">Your Unique Angle</div>
+        <div class="card-body">Pick one that competitors lack: native-teacher video lessons, AI pronunciation feedback, context-based vocab (street Thai vs. formal Thai), or gamified tone training.</div>
+        <div class="tags"><span class="tag highlight">Differentiate</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 PAGES & UX -->
+  <section class="section" id="pages">
+    <p class="section-tag">02 — Architecture</p>
+    <h2 class="section-title">Pages & UX Structure</h2>
+    <p class="section-desc">Every page serves one conversion goal. Map each page to an action before designing anything.</p>
+
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">Homepage</div>
+        <div class="card-wide-sub">Goal → Email signup or Start CTA</div>
+      </div>
+      <div class="card-wide-body">
+        Hero with bold headline + social proof numbers. Short "Why Thai is achievable" hook. 3 benefits above the fold. Free lesson teaser or interactive tone demo. Testimonials. FAQ. Final CTA block. Navigation: minimal — logo, courses, blog, login, "Start Free" button.
+      </div>
+    </div>
+
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">Courses Page</div>
+        <div class="card-wide-sub">Goal → Purchase / Trial signup</div>
+      </div>
+      <div class="card-wide-body">
+        Tiered layout: Beginner → Intermediate → Advanced. Each course card: level badge, lesson count, duration estimate, preview video thumbnail, price, CTA button. Filter by goal (travel, script reading, conversation). Progress previews for logged-in users.
+      </div>
+    </div>
+
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">Lesson / Demo Page</div>
+        <div class="card-wide-sub">Goal → Upsell to full course</div>
+      </div>
+      <div class="card-wide-body">
+        Unlock 1–3 free lessons. Thai script display + romanization toggle. Audio playback with waveform. Vocabulary cards. Mini quiz. Progress bar. Paywall teaser after lesson 3 with "You're doing great — continue?" CTA.
+      </div>
+    </div>
+
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">Blog / Resources</div>
+        <div class="card-wide-sub">Goal → SEO traffic → Email list</div>
+      </div>
+      <div class="card-wide-body">
+        Pillar articles: Thai tones guide, Thai script for beginners, common phrases, Thai culture explainers. Each article ends with an opt-in for a free PDF cheat sheet. Category filtering. Related posts. Author bio with credibility markers.
+      </div>
+    </div>
+
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">Pricing Page</div>
+        <div class="card-wide-sub">Goal → Subscription conversion</div>
+      </div>
+      <div class="card-wide-body">
+        3-tier pricing (Free, Pro, Lifetime). Annual/monthly toggle with savings callout. Feature comparison table. "Most Popular" badge on middle tier. Money-back guarantee. FAQ on billing. Testimonials near price cards.
+      </div>
+    </div>
+
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">About / Story Page</div>
+        <div class="card-wide-sub">Goal → Trust building</div>
+      </div>
+      <div class="card-wide-body">
+        Founder story with Thailand connection. Teacher bios with credentials and photo. Mission statement. Press mentions / media logos. Community size stat. Video tour of the platform.
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 CONVERSION -->
+  <section class="section" id="conversion">
+    <p class="section-tag">03 — Conversion Design</p>
+    <h2 class="section-title">High-Converting Elements</h2>
+    <p class="section-desc">These are the specific design and copy decisions that turn visitors into paying students.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">TRUST</span>
+        <div class="card-title">Social Proof Stack</div>
+        <div class="card-body">Student count ("12,000+ learners"), star ratings, photo testimonials with nationality flags, before/after fluency stories, video reviews from real students in Thailand.</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">URGENCY</span>
+        <div class="card-title">Scarcity & Offers</div>
+        <div class="card-body">Limited-time enrollment cohorts, countdown timers for launch pricing, "Only 3 spots left in live session" for group classes, seasonal discounts (Songkran, Thai New Year).</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">LEAD GEN</span>
+        <div class="card-title">Lead Magnets</div>
+        <div class="card-body">Free PDF: "100 Essential Thai Phrases". Free mini-course: Learn to read Thai in 7 days. Free tone training audio pack. Quiz: "What's your Thai learning style?" → personalized result + email capture.</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">UX</span>
+        <div class="card-title">Friction Removal</div>
+        <div class="card-body">No credit card for free trial. Google/Facebook SSO. Progress saved without account. Mobile-first responsive design. Fast page loads under 2s. Sticky CTA bar on mobile.</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">COPY</span>
+        <div class="card-title">Headline Formula</div>
+        <div class="card-body">Lead with transformation, not features. "Speak Thai with confidence in 90 days" beats "Learn Thai Online". Address the fear: "Even if you find tones impossible." Specific outcome + timeframe = click.</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">RETENTION</span>
+        <div class="card-title">Gamification Hooks</div>
+        <div class="card-body">Daily streaks, XP points, level badges, leaderboards, completion certificates. Progress dashboard after login. Weekly email with learning summary. All reinforce habit formation and reduce churn.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 CONTENT -->
+  <section class="section" id="content">
+    <p class="section-tag">04 — Content Strategy</p>
+    <h2 class="section-title">Curriculum & Content Architecture</h2>
+    <p class="section-desc">Content is the product. Structure it by learning outcome, not arbitrary topics.</p>
+
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">Level 0 — Foundations</div>
+        <div class="card-wide-sub">Free tier / lead magnet</div>
+      </div>
+      <div class="card-wide-body">
+        Thai tones explained visually. Basic greetings and polite particles (ครับ/ค่ะ). Numbers 1–100. Days, months, telling time. Introduction to Thai script — vowels and consonants overview. 5 survival phrases with audio.
+      </div>
+    </div>
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">Level 1 — Beginner</div>
+        <div class="card-wide-sub">Core paid tier</div>
+      </div>
+      <div class="card-wide-body">
+        Full Thai alphabet (44 consonants, 28 vowel forms). Tone rules and tone marks. 500-word core vocabulary. Present tense sentence structure. Shopping, food, transport scenarios. 20+ video lessons with quizzes.
+      </div>
+    </div>
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">Level 2 — Intermediate</div>
+        <div class="card-wide-sub">Pro / subscription</div>
+      </div>
+      <div class="card-wide-body">
+        Reading real Thai text (signs, menus, social media). Classifiers and particles deep-dive. Past and future tense patterns. 1,500-word vocabulary with spaced repetition. Listening exercises with native speed audio.
+      </div>
+    </div>
+    <div class="card-wide">
+      <div>
+        <div class="card-wide-label">Level 3 — Advanced</div>
+        <div class="card-wide-sub">Premium / live tutoring</div>
+      </div>
+      <div class="card-wide-body">
+        Formal vs. colloquial registers. Thai news and media comprehension. Business Thai. Writing practice with AI feedback. 1-on-1 sessions with native tutors. CEFR B2 preparation content.
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 TECH STACK -->
+  <section class="section" id="tech">
+    <p class="section-tag">05 — Technology</p>
+    <h2 class="section-title">Recommended Tech Stack</h2>
+    <p class="section-desc">Choose tools that let a small team ship fast, scale to thousands of students, and iterate on data.</p>
+
+    <div class="stack-grid">
+      <div class="stack-item">
+        <div class="stack-icon">F</div>
+        <div>
+          <div class="stack-name">Next.js (React)</div>
+          <div class="stack-desc">Frontend framework. SSG for blog/SEO pages, SSR for dashboard. Fast, SEO-friendly.</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">S</div>
+        <div>
+          <div class="stack-name">Supabase</div>
+          <div class="stack-desc">Auth, Postgres DB, file storage. Free tier generous. Real-time progress tracking.</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">V</div>
+        <div>
+          <div class="stack-name">Mux / Vimeo</div>
+          <div class="stack-desc">Video hosting with adaptive streaming. DRM for paid content protection.</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">P</div>
+        <div>
+          <div class="stack-name">Stripe</div>
+          <div class="stack-desc">Payments, subscriptions, one-time purchases. Webhooks sync to user DB.</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">E</div>
+        <div>
+          <div class="stack-name">ConvertKit / Loops</div>
+          <div class="stack-desc">Email marketing with automation. Welcome sequences, lesson drips, win-back flows.</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">C</div>
+        <div>
+          <div class="stack-name">Contentful / Sanity</div>
+          <div class="stack-desc">Headless CMS for blog and lesson content. Non-devs can update content.</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">A</div>
+        <div>
+          <div class="stack-name">PostHog / Mixpanel</div>
+          <div class="stack-desc">Product analytics. Track funnel drop-offs, lesson completion rates, conversion.</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">D</div>
+        <div>
+          <div class="stack-name">Vercel + Cloudflare</div>
+          <div class="stack-desc">Deployment + CDN. Global edge network, DDoS protection, image optimization.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">AI-Powered Feature Opportunities</div>
+      <div class="callout-body">Integrate AI for pronunciation scoring (compare user audio to native speaker), personalized vocab review using spaced repetition algorithms, AI chat tutor for practice conversation, and auto-generated tone drills based on individual weak spots. These features command premium pricing and drive retention.</div>
+    </div>
+  </section>
+
+  <!-- 06 SEO & TRAFFIC -->
+  <section class="section" id="seo">
+    <p class="section-tag">06 — Growth</p>
+    <h2 class="section-title">SEO & Traffic Strategy</h2>
+    <p class="section-desc">Organic search is the highest-ROI channel for language learning. These are the topics people actually search for.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">SEO PILLARS</span>
+        <div class="card-title">High-Volume Keywords</div>
+        <div class="card-body">"Learn Thai online", "Thai alphabet guide", "Thai tones explained", "how to read Thai", "Thai phrases for travel", "Thai for beginners". Create a dedicated pillar page per topic.</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">CONTENT HUB</span>
+        <div class="card-title">Blog Architecture</div>
+        <div class="card-body">Topic clusters: Alphabet → Tones → Vocabulary → Grammar → Culture. Internal linking between clusters. Aim for 2 new articles/week initially. Each ranks independently and feeds the funnel.</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">SOCIAL</span>
+        <div class="card-title">Platform Strategy</div>
+        <div class="card-body">TikTok & Instagram Reels: 30-second Thai word-of-the-day clips. YouTube: long-form lessons rank on Google. Pinterest: Thai phrase infographics. These compound over time at zero ad spend.</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">PAID ADS</span>
+        <div class="card-title">Paid Acquisition</div>
+        <div class="card-body">Google Ads: target "learn Thai online" with free trial offer. Facebook/Instagram: target expats in Thailand, language learning enthusiasts. Retarget blog readers with course offers. Start with $500/month test budget.</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">COMMUNITY</span>
+        <div class="card-title">Network Effects</div>
+        <div class="card-body">Facebook Group, Discord community, or forum on-site. Students helping students extends your content surface area. Alumni stories feed testimonials. Referral programme: "Give 20%, get 20%".</div>
+      </div>
+      <div class="card">
+        <div class="card-accent"></div>
+        <span class="card-num">PARTNERS</span>
+        <div class="card-title">Affiliate & Collab</div>
+        <div class="card-body">Partner with Thailand travel bloggers, expat YouTubers, Muay Thai schools, Thai food channels. Affiliate programme (30% recurring). Guest posts on expat forums. Appear on language learning podcasts.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 ROADMAP -->
+  <section class="section" id="roadmap">
+    <p class="section-tag">07 — Execution</p>
+    <h2 class="section-title">Build Roadmap</h2>
+    <p class="section-desc">Four phases from zero to a live, revenue-generating platform. Each phase has clear exit criteria before moving forward.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 1 — Weeks 1–4</div>
+        <div class="timeline-title">Foundation & Validation</div>
+        <div class="timeline-body">Define niche and ICP. Register domain and brand. Build landing page with email capture and free lead magnet. Create 5 sample lessons. Validate demand: 200+ email subscribers before building full product. Set up analytics from day one.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 2 — Weeks 5–10</div>
+        <div class="timeline-title">Core Product Build</div>
+        <div class="timeline-body">Build full website (homepage, courses, blog, pricing, auth). Record Level 1 course (20+ lessons). Integrate Stripe for payments. Launch free tier + one paid course. Publish 8 SEO blog articles. Set up email automation sequences.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 3 — Weeks 11–16</div>
+        <div class="timeline-title">Conversion Optimisation</div>
+        <div class="timeline-body">A/B test homepage headline. Add testimonials and social proof. Implement gamification (streaks, XP). Launch referral programme. Start paid social ads. Interview first 20 paying students for case studies. Add quiz lead magnet.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 4 — Month 5+</div>
+        <div class="timeline-title">Scale & Expand</div>
+        <div class="timeline-body">Add Level 2 & 3 curriculum. Build subscription tier. Introduce live group sessions with tutors. Launch mobile app (React Native or PWA). Explore B2B: Thai language training for companies with Thai operations. Build affiliate programme.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 KPIs -->
+  <section class="section" id="kpis">
+    <p class="section-tag">08 — Metrics</p>
+    <h2 class="section-title">KPIs to Track From Day One</h2>
+    <p class="section-desc">You can't improve what you don't measure. These are the numbers that tell you if the site is actually converting.</p>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-val">3<span>%+</span></div>
+        <div class="metric-label">Homepage → Signup conversion</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">15<span>%+</span></div>
+        <div class="metric-label">Free → Paid upgrade rate</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">60<span>%+</span></div>
+        <div class="metric-label">Lesson completion rate</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">&lt;2<span>s</span></div>
+        <div class="metric-label">Page load time (LCP)</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">40<span>%+</span></div>
+        <div class="metric-label">Email open rate (welcome)</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">80<span>%+</span></div>
+        <div class="metric-label">Month-1 subscriber retention</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:44px">
+      <div class="callout-title">North Star Metric</div>
+      <div class="callout-body">Track "Active Weekly Learners" — students who complete at least one lesson per week. This single metric connects product quality, conversion, and retention in one number. Everything else is a lever that moves this metric.</div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <p>THAI LANGUAGE WEBSITE — FULL BUILD PLAN · 2024</p>
+  <span class="thai">โชคดี</span>
+</footer>
+
+</body>
+</html>

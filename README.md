@@ -1,2 +1,2 @@
 # LearningThainl
-: High-Converting Website for Learning Thai
+High-Converting Website for Learning Thai
